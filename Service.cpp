@@ -30,7 +30,7 @@ bool Service::create_service() {
 	DWORD errCode = GetLastError();
 
 	if (this->hService == nullptr) {
-		printf("[-] Failed To Create Service. (Error Code: %i)\n", GetLastError());
+		printf("[-] Failed To Create Service. (Error Code: %lu)\n", GetLastError());
 	}
 	else if (errCode == 1073) { // 1073 == ERROR_SERVICE_EXISTS
 		printf("[!] Service allready exists\n");
@@ -41,7 +41,7 @@ bool Service::create_service() {
 		return this->start_service();
 	}
 	else if (errCode != 0) {
-		printf("[!] Hit last else if in create service. (Error Code: %i)\n", GetLastError());
+		printf("[!] Hit last else if in create service. (Error Code: %lu)\n", GetLastError());
 	}
 
 	return FALSE;
@@ -55,13 +55,13 @@ bool Service::start_service() {
 	{
 		DWORD errCode = GetLastError();
 
-		// 6 = ERROR_INVALID_HANDLE, 1056 = ERROR_SERVICE_ALREADY_RUNNING
-		if (errCode == 6 || errCode == 1056) { 
+		// 183 == ERROR_ALLREADY_EXISTS, 1056 = ERROR_SERVICE_ALREADY_RUNNING
+		if (errCode == 183 || errCode == 1056) {
 			printf("[!] Service allready running\n");
 			return TRUE;
 		}
 		else {
-			printf("[-] Failed to start Service. (Error Code: %i)\n", errCode);
+			printf("[-] Failed to start Service. (Error Code: %lu)\n", errCode);
 			return FALSE;
 		}
 	}

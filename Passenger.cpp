@@ -93,7 +93,7 @@ int main(int argc, char** argv)
 	
 	hDriver = CreateFileA("\\\\.\\PROCEXP152", GENERIC_ALL, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hDriver == INVALID_HANDLE_VALUE) {
-		printf("[!] Failed to get handle to driver. (Error Code: %i)\n", GetLastError());
+		printf("[!] Failed to get handle to driver. (Error Code: %lu)\n", GetLastError());
 		return 0;
 	}
 	printf("[+] Got handle to driver\n");
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 
 	hProc = open_handle((ULONGLONG)PID, hDriver);
 	if (hProc == NULL) {
-		printf("[!] Failed to get handle for \"%ws\". (Error Code: %i)\n", procName, GetLastError());
+		printf("[!] Failed to get handle for \"%ws\". (Error Code: %lu)\n", procName, GetLastError());
 		CloseHandle(hDriver);
 		return 1;
 	}

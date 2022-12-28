@@ -96,7 +96,7 @@ BOOL SetDebugPrivilege() {
 	HANDLE hToken = NULL;
 
 	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, &hToken)) {
-		printf("[-] Failed to get current process token. (Error Code: %i)\n", GetLastError());
+		printf("[-] Failed to get current process token. (Error Code: %lu)\n", GetLastError());
 		return FALSE;
 	}
 
@@ -104,7 +104,7 @@ BOOL SetDebugPrivilege() {
 	LUID luid = { 0 };
 
 	if (!LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &luid)) {
-		printf("[-] LookupPrivilegeValue failed. (Error Code: %i)\n", GetLastError());
+		printf("[-] LookupPrivilegeValue failed. (Error Code: %lu)\n", GetLastError());
 		return FALSE;
 	}
 
@@ -114,7 +114,7 @@ BOOL SetDebugPrivilege() {
 
 
 	if (!AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL)) {
-		printf("[-] AdjustTokenPrivileges Failed. (Error Code: %i)\n", GetLastError());
+		printf("[-] AdjustTokenPrivileges Failed. (Error Code: %lu)\n", GetLastError());
 		return FALSE;
 	}
 

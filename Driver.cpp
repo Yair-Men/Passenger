@@ -8,7 +8,7 @@ BOOL close_handle(HANDLE driverHandle, Procexp_close sProcexp)
 	BOOL ret = DeviceIoControl(driverHandle, IOCTL_CLOSE_HANDLE, &sProcexp, sizeof(sProcexp), NULL, 0, &bytes, NULL);
 	
 	if (!ret) {
-		printf("[-] Error closing handle. (Error Code: %i)\n", GetLastError());
+		printf("[-] Error closing handle. (Error Code: %lu)\n", GetLastError());
 		return FALSE;
 	}
 
@@ -52,7 +52,7 @@ BOOL kill(HANDLE hDriver, HANDLE hProc, ULONGLONG PID)
 	PSYSTEM_HANDLE_INFORMATION handleTableInformation = (PSYSTEM_HANDLE_INFORMATION)malloc(SystemHandleInformationSize);
 	
 	if (!handleTableInformation) {
-		printf("Error allocating memory. (Error Code: %i)\n", GetLastError());
+		printf("[-] Error allocating memory. (Error Code: %lu)\n", GetLastError());
 		return FALSE;
 	}
 
@@ -69,7 +69,7 @@ more:
 	}
 
 	if (stat != 0 && stat != STATUS_INFO_LENGTH_MISMATCH){
-		printf("Error getting handles: (0x%x)\n", stat);
+		printf("[-] Error getting handles: (0x%x)\n", stat);
 		return FALSE;
 	}
 
@@ -85,7 +85,7 @@ more:
 		}
 		__except (filter(GetExceptionCode())) /*Workaround to a fucking crash*/ {
 			if (handle == FALSE) {
-				printf("returning with errors\n");
+				printf("[-] returning with errors\n");
 				goto more;
 			}
 			goto return_handle_table;
