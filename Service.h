@@ -20,6 +20,9 @@ public:
 	bool start_service();
 	~Service();
 
+private:
+	bool enable_service();
+
 };
 
 #endif // !service_h
